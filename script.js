@@ -1,11 +1,18 @@
 const Gameboard = {
   gameboard: [
-               ['x', 'x', ''],
-               ['x', 'x', 'x'],
-               ['x', 'x', 'x']
+               ['X', 'X', 'O'],
+               ['O', 'O', 'X'],
+               ['X', 'O', 'O']
              ],
   winningCombos: [
-                   
+                   [ [[0], [0]], [[0], [1]], [[0], [2]] ],
+                   [ [[1], [0]], [[1], [1]], [[1], [2]] ],
+                   [ [[2], [0]], [[2], [1]], [[2], [2]] ],
+                   [ [[0], [0]], [[1], [0]], [[2], [0]] ],
+                   [ [[0], [1]], [[1], [1]], [[2], [1]] ],
+                   [ [[0], [2]], [[1], [2]], [[2], [2]] ],
+                   [ [[0], [0]], [[1], [1]], [[2], [2]] ],
+                   [ [[0], [2]], [[1], [1]], [[2], [0]] ]
                  ]
 }
 
@@ -16,17 +23,22 @@ const Gameplay = {
 
   startRound: function() {
     if (this.currentPlayer === null) this.currentPlayer = this.player1;
-    Gameboard.gameboard[0][2] = this.currentPlayer.marker;
+    // Gameboard.gameboard[0][2] = this.currentPlayer.marker;
   },
   endTurn: function() {
-    this.checkForWin(this.currentPlayer.marker);
+    this.checkForWin(this.currentPlayer);
+    this.checkForGameOver();
+
     this. currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
   },
-  endGame: function() {
-    console.log('Thanks for playing!');
-  },
-  checkForWin: function(marker) {
-    
+  checkForWin: function(currentPlayer) {
+    const gameWon = Gameboard.winningCombos.some(combos => {
+      return combos.every(([i, j]) => {
+        return Gameboard.gameboard[i][j] === currentPlayer.marker;
+      });
+    });
+
+    if (gameWon) this.gameWon(currentPlayer);
   },
   checkForGameOver: function() {
     let fullGameboard = Gameboard.gameboard.every(row => {
@@ -34,10 +46,16 @@ const Gameplay = {
     });
 
     if (fullGameboard) this.endGame();
+  },
+  gameWon: function(winner) {
+    console.log(`${winner.name} is the winner!`)
+  },
+  endGame: function() {
+    console.log("It's a tie! Thanks for playing!");
   }
 }
 
-Gameplay.startGame();
+Gameplay.startRound();
 
 function Player(name, marker) {
   return {name, marker};
