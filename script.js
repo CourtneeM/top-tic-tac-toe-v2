@@ -1,8 +1,8 @@
 const Gameboard = {
   gameboard: [
-               ['X', 'X', 'O'],
-               ['O', 'O', 'X'],
-               ['X', 'O', 'O']
+               ['', '', ''],
+               ['', '', ''],
+               ['', '', '']
              ],
   winningCombos: [
                    [ [[0], [0]], [[0], [1]], [[0], [2]] ],
@@ -23,7 +23,6 @@ const Gameplay = {
 
   startRound: function() {
     if (this.currentPlayer === null) this.currentPlayer = this.player1;
-    // Gameboard.gameboard[0][2] = this.currentPlayer.marker;
   },
   endTurn: function() {
     this.checkForWin(this.currentPlayer);

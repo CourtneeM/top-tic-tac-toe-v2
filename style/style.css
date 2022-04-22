@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#gameboard-container .gameboard-row {
+  display: flex;
+  border-bottom: 1px solid #000;
+}
+#gameboard-container .gameboard-row:last-child {
+  border-bottom: none;
+}
+#gameboard-container .gameboard-row .gameboard-square {
+  width: 160px;
+  height: 160px;
+}
+#gameboard-container .gameboard-row .gameboard-square:nth-child(1), #gameboard-container .gameboard-row .gameboard-square:nth-child(2) {
+  border-right: 1px solid #000;
+}
+
+/*# sourceMappingURL=style.css.map */
