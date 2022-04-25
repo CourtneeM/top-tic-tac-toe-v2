@@ -26,30 +26,36 @@ const Gameplay = {
   currentPlayer: null,
   player1: Player('Player 1', 'X'),
   player2: Player('Player 2', 'O'),
+  gameOver: false,
 
   startRound: function() {
     if (this.currentPlayer === null) this.currentPlayer = this.player1;
     
-    this.checkForWin(this.currentPlayer);
-    this.checkForGameOver();
   },
   endRound: function() {
+    this.checkForWin(this.currentPlayer);
+    this.checkForGameOver();
     this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
   },
   checkForWin: function(currentPlayer) {
-    const gameWon = Gameboard.winningCombos.some(combos => {
-      return combos.every(i => {
-        console.log(Gameboard.gameboard[i] === currentPlayer.marker);
+    const gameWon = Gameboard.winningCombos.some(combo => {
+      return combo.every(i => {
         return Gameboard.gameboard[i] === currentPlayer.marker;
       });
     });
 
-    if (gameWon) this.gameWon(currentPlayer);
+    if (gameWon) {
+      this.gameOver = true;
+      this.gameWon(currentPlayer);
+    }
   },
   checkForGameOver: function() {
     let fullGameboard = Gameboard.gameboard.every(square => square);
 
-    if (fullGameboard) this.endGame();
+    if (fullGameboard) {
+      this.gameOver = true;
+      this.endGame();
+    }
   },
   gameWon: function(winner) {
     console.log(`${winner.name} is the winner!`)
@@ -64,7 +70,11 @@ const EventHandler = {
     const gameboardSquares = [...document.querySelectorAll('.gameboard-square')];
     gameboardSquares.forEach(function(square) {
       square.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('gameboard-square')) return;
+
         const i = [...document.querySelectorAll('.gameboard-square')].indexOf(e.target);
+
+        if (Gameboard.gameboard[i] || Gameplay.gameOver) return;
 
         Gameplay.startRound();
         DisplayController.updateGameboard(i);
@@ -79,7 +89,7 @@ const DisplayController = {
   updateGameboard: function(i) {
     const gameboardSquares = [...document.querySelectorAll('.gameboard-square')];
     const squareP = document.createElement('p');
-    
+
     squareP.textContent = Gameplay.currentPlayer.marker;
     gameboardSquares[i].appendChild(squareP);
   }
