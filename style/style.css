@@ -19,11 +19,18 @@ main {
   border-bottom: none;
 }
 #gameboard-container .gameboard-row .gameboard-square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 160px;
   height: 160px;
 }
 #gameboard-container .gameboard-row .gameboard-square:nth-child(1), #gameboard-container .gameboard-row .gameboard-square:nth-child(2) {
   border-right: 1px solid #000;
+}
+#gameboard-container .gameboard-row .gameboard-square p {
+  font-size: 3.4rem;
+  font-family: sans-serif;
 }
 
 /*# sourceMappingURL=style.css.map */
