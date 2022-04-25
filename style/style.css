@@ -6,6 +6,7 @@
 
 main {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -31,6 +32,11 @@ main {
 #gameboard-container .gameboard-row .gameboard-square p {
   font-size: 3.4rem;
   font-family: sans-serif;
+}
+
+#results-container {
+  flex: 1 1 100%;
+  text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */

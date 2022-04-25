@@ -34,6 +34,7 @@ const Gameplay = {
   },
   endRound: function() {
     this.checkForWin(this.currentPlayer);
+    if (this.gameOver) return;
     this.checkForGameOver();
     this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
   },
@@ -58,10 +59,10 @@ const Gameplay = {
     }
   },
   gameWon: function(winner) {
-    console.log(`${winner.name} is the winner!`)
+    DisplayController.results(`${winner.name} is the winner!`);
   },
   endGame: function() {
-    console.log("It's a tie! Thanks for playing!");
+    DisplayController.results("It's a tie! Thanks for playing!")
   }
 }
 
@@ -92,6 +93,14 @@ const DisplayController = {
 
     squareP.textContent = Gameplay.currentPlayer.marker;
     gameboardSquares[i].appendChild(squareP);
+  },
+  results: function(winner) {
+    const resultsContainer = document.querySelector('#results-container');
+    const resultsP = document.createElement('p');
+
+    resultsP.textContent = winner;
+
+    resultsContainer.appendChild(resultsP);
   }
 }
 
